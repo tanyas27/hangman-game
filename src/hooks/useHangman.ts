@@ -1,43 +1,56 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { selectRandomWord } from '../utils/wordUtils';
 import { DEFAULT_WORD_LIST } from '../constants/words';
 import { MAX_LIVES } from '../constants/config';
-import type { GameStatus } from '../types';
+import type { GameStatus, HangmanConfig, HangmanState } from '../types';
 
-export const useHangman = (wordList: string[] = DEFAULT_WORD_LIST) => {
+const DEFAULT_CONFIG: HangmanConfig = {
+  wordList: DEFAULT_WORD_LIST,
+  maxLives: MAX_LIVES,
+};
+
+export const useHangman = (config?: HangmanConfig): HangmanState => {
+  const { wordList, maxLives } = { ...DEFAULT_CONFIG, ...config };
+
   const [currentWord, setCurrentWord] = useState('');
   const [guessedLetters, setGuessedLetters] = useState<Set<string>>(new Set());
 
-  const wrongGuesses = Array.from(guessedLetters).filter(
-    (letter) => !currentWord.toUpperCase().includes(letter)
+  const wrongGuesses = useMemo(
+    () =>
+      Array.from(guessedLetters).filter(
+        (letter) => !currentWord.includes(letter)
+      ),
+    [guessedLetters, currentWord]
   );
 
   const isWon =
     currentWord &&
     currentWord
       .split('')
-      .every((letter) => guessedLetters.has(letter.toUpperCase()));
+      .every((letter) => guessedLetters.has(letter));
 
-  const isLost = wrongGuesses.length >= MAX_LIVES;
+  const isLost = wrongGuesses.length >= maxLives!;
 
   const gameStatus: GameStatus = isWon ? 'won' : isLost ? 'lost' : 'playing';
 
+  const resetGame = useCallback(() => {
+    setCurrentWord(selectRandomWord(wordList!).toUpperCase());
+    setGuessedLetters(new Set());
+  }, [wordList]);
+
   useEffect(() => {
     resetGame();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [resetGame]);
 
-  const handleGuess = (letter: string) => {
-    if (gameStatus !== 'playing') return;
-    if (guessedLetters.has(letter)) return;
+  const handleGuess = useCallback(
+    (letter: string) => {
+      if (gameStatus !== 'playing') return;
+      if (guessedLetters.has(letter)) return;
 
-    setGuessedLetters((prev) => new Set(prev).add(letter));
-  };
-
-  const resetGame = () => {
-    setCurrentWord(selectRandomWord(wordList).toUpperCase());
-    setGuessedLetters(new Set());
-  };
+      setGuessedLetters((prev) => new Set(prev).add(letter));
+    },
+    [gameStatus, guessedLetters]
+  );
 
   return {
     currentWord,
@@ -46,5 +59,6 @@ export const useHangman = (wordList: string[] = DEFAULT_WORD_LIST) => {
     gameStatus,
     handleGuess,
     resetGame,
+    maxLives: maxLives!,
   };
 };

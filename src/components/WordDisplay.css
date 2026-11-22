@@ -1,0 +1,42 @@
+/* Word Display Component Styles */
+
+.word-display {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: var(--spacing-md) 0;
+
+  & .letter {
+    font-size: var(--font-size-letter);
+    font-weight: bold;
+    min-width: 40px;
+    text-align: center;
+    color: var(--color-primary);
+    font-family: monospace;
+  }
+
+  & .letter-correct {
+    color: var(--color-correct);
+  }
+
+  & .letter-missed {
+    color: var(--color-wrong);
+  }
+}
+
+/* Responsive: Tablet */
+@media (max-width: 768px) {
+  .word-display .letter {
+    font-size: 2rem;
+    min-width: 30px;
+  }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 480px) {
+  .word-display .letter {
+    font-size: 1.5rem;
+    min-width: 25px;
+  }
+}

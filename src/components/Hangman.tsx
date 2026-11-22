@@ -4,9 +4,14 @@ import { HangmanDrawing } from './HangmanDrawing';
 import { WordDisplay } from './WordDisplay';
 import { Keyboard } from './Keyboard';
 import { GameStatusModal } from './GameStatus';
+import type { HangmanConfig } from '../types';
 import './Hangman.css';
 
-export const Hangman = () => {
+interface HangmanProps {
+  config?: HangmanConfig;
+}
+
+export const Hangman = ({ config }: HangmanProps) => {
   const {
     currentWord,
     guessedLetters,
@@ -14,7 +19,8 @@ export const Hangman = () => {
     gameStatus,
     handleGuess,
     resetGame,
-  } = useHangman();
+    maxLives,
+  } = useHangman(config);
 
   useKeyboardInput({
     onKeyPress: handleGuess,
@@ -27,6 +33,10 @@ export const Hangman = () => {
       <p className="keyboard-hint">
         Use your keyboard or click the letters below
       </p>
+
+      <div className="visually-hidden" role="status" aria-live="polite">
+        {wrongGuesses.length} wrong guesses, {maxLives - wrongGuesses.length} lives remaining
+      </div>
 
       <HangmanDrawing wrongCount={wrongGuesses.length} />
 

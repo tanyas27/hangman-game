@@ -1,3 +1,37 @@
+:root {
+  /* Color palette */
+  --color-primary: #333;
+  --color-secondary: #666;
+  --color-correct: #10b981;
+  --color-wrong: #ef4444;
+  --color-accent: #667eea;
+
+  /* Background colors */
+  --bg-key-default: white;
+  --bg-key-hover: #f3f4f6;
+  --bg-key-correct: #22c55e;
+  --bg-key-wrong: #ef4444;
+  --bg-modal: rgba(0, 0, 0, 0.5);
+  --bg-body: #e8eaf6;
+
+  /* Border colors */
+  --border-key-default: #e5e7eb;
+  --border-key-hover: var(--color-accent);
+  --border-kbd: #d1d5db;
+
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 20px;
+  --spacing-lg: 30px;
+
+  /* Typography */
+  --font-size-title: 2.5rem;
+  --font-size-letter: 3rem;
+  --font-size-key: 1.1rem;
+  --font-size-hint: 0.9rem;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +44,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #e8eaf6;
+  background: var(--bg-body);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -21,4 +55,17 @@ body {
   width: 100%;
   max-width: 800px;
   padding: 20px;
+}
+
+/* Accessibility: Visually hidden but screen reader accessible */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

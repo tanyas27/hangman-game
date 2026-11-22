@@ -1,4 +1,5 @@
 import type { GameStatus } from '../types';
+import './WordDisplay.css';
 
 interface WordDisplayProps {
   word: string;
@@ -12,12 +13,15 @@ export const WordDisplay = ({
   gameStatus,
 }: WordDisplayProps) => {
   return (
-    <div className="word-display">
+    <div
+      className="word-display"
+      role="region"
+      aria-label="Current word progress"
+    >
       {word.split('').map((letter, index) => {
-        const isGuessed = guessedLetters.has(letter.toUpperCase());
+        const isGuessed = guessedLetters.has(letter);
         const showLetter = gameStatus !== 'playing' || isGuessed;
 
-        // After game ends: green for guessed, red for missed
         const letterClass =
           gameStatus !== 'playing'
             ? isGuessed
@@ -26,7 +30,16 @@ export const WordDisplay = ({
             : '';
 
         return (
-          <span key={index} className={`letter ${letterClass}`}>
+          <span
+            key={index}
+            className={`letter ${letterClass}`}
+            role="text"
+            aria-label={
+              showLetter
+                ? `Letter ${letter}`
+                : `Hidden letter ${index + 1} of ${word.length}`
+            }
+          >
             {showLetter ? letter : '_'}
           </span>
         );

@@ -18,13 +18,13 @@ describe('Hangman Game Integration', () => {
     expect(screen.queryByText(/you won/i)).not.toBeInTheDocument();
 
     // Guess correct letters: C, A, T
-    await user.click(screen.getByRole('button', { name: 'C' }));
-    await user.click(screen.getByRole('button', { name: 'A' }));
-    await user.click(screen.getByRole('button', { name: 'T' }));
+    await user.click(screen.getByRole('button', { name: /Letter C/ }));
+    await user.click(screen.getByRole('button', { name: /Letter A/ }));
+    await user.click(screen.getByRole('button', { name: /Letter T/ }));
 
     // Win modal should appear
     expect(screen.getByText(/you won/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /play again/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /start a new game/i })).toBeInTheDocument();
   });
 
   it('should complete a losing game flow', async () => {
@@ -34,12 +34,12 @@ describe('Hangman Game Integration', () => {
     // Make 6 wrong guesses (MAX_LIVES)
     const wrongLetters = ['X', 'Y', 'Z', 'Q', 'W', 'R'];
     for (const letter of wrongLetters) {
-      await user.click(screen.getByRole('button', { name: letter }));
+      await user.click(screen.getByRole('button', { name: new RegExp(`Letter ${letter}`) }));
     }
 
     // Lose modal should appear
     expect(screen.getByText(/you lost/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /start a new game/i })).toBeInTheDocument();
   });
 
   it('should reset game when play again is clicked', async () => {
@@ -47,14 +47,14 @@ describe('Hangman Game Integration', () => {
     render(<Hangman />);
 
     // Win the game quickly
-    await user.click(screen.getByRole('button', { name: 'C' }));
-    await user.click(screen.getByRole('button', { name: 'A' }));
-    await user.click(screen.getByRole('button', { name: 'T' }));
+    await user.click(screen.getByRole('button', { name: /Letter C/ }));
+    await user.click(screen.getByRole('button', { name: /Letter A/ }));
+    await user.click(screen.getByRole('button', { name: /Letter T/ }));
 
     expect(screen.getByText(/you won/i)).toBeInTheDocument();
 
     // Click reset
-    await user.click(screen.getByRole('button', { name: /play again/i }));
+    await user.click(screen.getByRole('button', { name: /start a new game/i }));
 
     // Modal should be gone, game reset
     expect(screen.queryByText(/you won/i)).not.toBeInTheDocument();
@@ -78,12 +78,12 @@ describe('Hangman Game Integration', () => {
     render(<Hangman />);
 
     // Win the game
-    await user.click(screen.getByRole('button', { name: 'C' }));
-    await user.click(screen.getByRole('button', { name: 'A' }));
-    await user.click(screen.getByRole('button', { name: 'T' }));
+    await user.click(screen.getByRole('button', { name: /Letter C/ }));
+    await user.click(screen.getByRole('button', { name: /Letter A/ }));
+    await user.click(screen.getByRole('button', { name: /Letter T/ }));
 
     // Try to guess another letter after winning
-    const buttonX = screen.getByRole('button', { name: 'X' });
+    const buttonX = screen.getByRole('button', { name: /Letter X/ });
     await user.click(buttonX);
 
     // Button should be disabled (not register the click)

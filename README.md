@@ -19,10 +19,10 @@ A modern, interactive Hangman word guessing game built with React 19, TypeScript
 
 ## Tech Stack
 
-- **React 19** - Latest React with modern hooks
-- **TypeScript 5.7** - Type safety and better DX
-- **Vite 6** - Fast build tool and dev server (10-20x faster than CRA)
-- **Vitest 2.1** - Unit testing framework
+- **React 19.3** - Latest React with modern hooks
+- **TypeScript 7.0** - Type safety and better DX
+- **Vite 8.3** - Fast build tool and dev server (10-20x faster than CRA)
+- **Vitest 5.1** - Unit testing framework
 - **React Testing Library 16.3** - Component testing
 
 ## Getting Started
@@ -60,11 +60,15 @@ npm test -- --watch # Watch mode
 src/
 ├── components/              # React components
 │   ├── Hangman.tsx         # Main game container
-│   ├── Hangman.css         # Component styles (colocated)
+│   ├── Hangman.css         # Main component styles
 │   ├── HangmanDrawing.tsx  # SVG hangman figure
+│   ├── HangmanDrawing.css  # Drawing styles
 │   ├── WordDisplay.tsx     # Word with blanks/letters
+│   ├── WordDisplay.css     # Word display styles
 │   ├── Keyboard.tsx        # Alphabetical keyboard (A-Z)
-│   └── GameStatus.tsx      # Win/loss modal
+│   ├── Keyboard.css        # Keyboard styles
+│   ├── GameStatus.tsx      # Win/loss modal
+│   └── GameStatus.css      # Modal styles
 ├── hooks/                  # Custom React hooks
 │   ├── useHangman.ts       # Game state management
 │   └── useKeyboardInput.ts # Physical keyboard handler
@@ -150,8 +154,9 @@ The game uses a clean, scalable architecture:
 - **Separation of Concerns**: Physical keyboard input in separate `useKeyboardInput` hook
 - **Component Structure**: Modular, focused components with clear responsibilities
 - **Type Safety**: Full TypeScript coverage with interfaces
+- **CSS Architecture**: Each component has its own CSS file for maintainability
 - **CSS Grid**: Flexible, responsive layout without nested arrays
-- **Testing**: 159 passing tests with React Testing Library
+- **Testing**: 24 passing tests with React Testing Library (Testing Trophy approach)
 
 ## Why Vite over CRA?
 
@@ -163,12 +168,12 @@ The game uses a clean, scalable architecture:
 
 ## Testing
 
-Comprehensive test coverage with:
-- **159 tests passing**
-- **8 test files** covering all components, hooks, and utilities
+Focused test coverage with Testing Trophy approach:
+- **24 tests passing**
+- **3 test files** (integration, hooks, utilities)
 - **React Testing Library** for component testing
 - **Vitest** for fast unit tests
-- **Coverage**: All user interactions, edge cases, and state transitions
+- **Coverage**: User flows, game logic, and utility functions
 
 Run tests:
 ```bash
@@ -204,13 +209,6 @@ The architecture supports easy addition of:
 ## Reference
 
 UI design based on: https://hangman-with-react-ts.vercel.app/
-
-## Documentation
-
-- `TECHNICAL_DESIGN.md` - Detailed architecture and design decisions
-- `ARCHITECTURE_DIAGRAM.md` - Visual component hierarchy
-- `TESTING_DOCUMENTATION.md` - Test coverage and strategy
-- `KEYBOARD_FEATURE.md` - Physical keyboard implementation
 
 ## License
 

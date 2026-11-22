@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 
 interface UseKeyboardInputProps {
   onKeyPress: (letter: string) => void;
@@ -6,6 +6,10 @@ interface UseKeyboardInputProps {
 }
 
 export const useKeyboardInput = ({ onKeyPress, enabled }: UseKeyboardInputProps) => {
+  const onKey = useEffectEvent((letter: string) => {
+    onKeyPress(letter);
+  });
+
   useEffect(() => {
     if (!enabled) return;
 
@@ -14,7 +18,7 @@ export const useKeyboardInput = ({ onKeyPress, enabled }: UseKeyboardInputProps)
 
       if (key.length === 1 && key >= 'A' && key <= 'Z') {
         event.preventDefault();
-        onKeyPress(key);
+        onKey(key);
       }
     };
 
@@ -23,5 +27,5 @@ export const useKeyboardInput = ({ onKeyPress, enabled }: UseKeyboardInputProps)
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [onKeyPress, enabled]);
+  }, [enabled]);
 };

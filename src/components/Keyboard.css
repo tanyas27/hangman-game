@@ -1,0 +1,80 @@
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: var(--spacing-xs);
+  width: 100%;
+  max-width: 600px;
+
+  & .key {
+    min-width: 45px;
+    height: 50px;
+    font-size: var(--font-size-key);
+    font-weight: 600;
+    border: 2px solid var(--border-key-default);
+    background: var(--bg-key-default);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    color: var(--color-primary);
+
+    &:hover:not(:disabled) {
+      background: var(--bg-key-hover);
+      border-color: var(--border-key-hover);
+      transform: translateY(-2px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+  & .key-correct {
+    background: var(--bg-key-correct);
+    color: white;
+    border-color: color-mix(in srgb, var(--bg-key-correct) 85%, black);
+
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--bg-key-correct) 90%, black);
+    }
+  }
+
+  & .key-wrong {
+    background: #6b7280;
+    color: white;
+    border-color: #4b5563;
+
+    &:hover:not(:disabled) {
+      background: #4b5563;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .keyboard {
+    grid-template-columns: repeat(7, 1fr);
+
+    & .key {
+      min-width: 35px;
+      height: 45px;
+      font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .keyboard {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+
+    & .key {
+      min-width: 30px;
+      height: 40px;
+      font-size: 0.9rem;
+    }
+  }
+}

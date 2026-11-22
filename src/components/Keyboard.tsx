@@ -1,4 +1,5 @@
 import { KEYBOARD_LETTERS } from '../constants/config';
+import './Keyboard.css';
 
 interface KeyboardProps {
   onLetterClick: (letter: string) => void;
@@ -13,23 +14,28 @@ export const Keyboard = ({
   currentWord,
   disabled,
 }: KeyboardProps) => {
-  const getButtonState = (letter: string) => {
-    if (!guessedLetters.has(letter)) return 'default';
-    return currentWord.includes(letter) ? 'correct' : 'wrong';
-  };
-
   return (
-    <div className="keyboard">
+    <div className="keyboard" role="group" aria-label="Virtual keyboard">
       {KEYBOARD_LETTERS.map((letter) => {
-        const state = getButtonState(letter);
-        const isDisabled = disabled || guessedLetters.has(letter);
+        const isGuessed = guessedLetters.has(letter);
+        const isCorrect = isGuessed && currentWord.includes(letter);
+
+        const state = !isGuessed ? 'default' : isCorrect ? 'correct' : 'wrong';
+        const isDisabled = disabled || isGuessed;
 
         return (
           <button
             key={letter}
+            type="button"
             onClick={() => onLetterClick(letter)}
             disabled={isDisabled}
             className={`key key-${state}`}
+            aria-label={`Letter ${letter}${
+              state === 'correct' ? ', correct guess' :
+              state === 'wrong' ? ', wrong guess' :
+              ''
+            }`}
+            aria-pressed={isGuessed}
           >
             {letter}
           </button>

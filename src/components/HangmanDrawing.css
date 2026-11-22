@@ -1,0 +1,23 @@
+/* Hangman Drawing Component Styles */
+
+.hangman-svg {
+  color: var(--color-primary);
+  display: block;
+  margin: 0 auto;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 768px) {
+  .hangman-svg {
+    height: 200px;
+    width: 160px;
+  }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 480px) {
+  .hangman-svg {
+    height: 180px;
+    width: 140px;
+  }
+}

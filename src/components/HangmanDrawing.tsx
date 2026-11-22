@@ -1,3 +1,5 @@
+import './HangmanDrawing.css';
+
 interface HangmanDrawingProps {
   wrongCount: number;
 }
@@ -11,8 +13,13 @@ export const HangmanDrawing = ({ wrongCount }: HangmanDrawingProps) => {
   const RIGHT_LEG = wrongCount >= 6;
 
   return (
-    <svg height="250" width="200" className="hangman-svg">
-      {/* Gallows */}
+    <svg
+      height="250"
+      width="200"
+      className="hangman-svg"
+      role="img"
+      aria-label={`Hangman drawing: ${wrongCount} wrong guesses out of 6`}
+    >
       <line
         x1="60"
         y1="20"
@@ -50,7 +57,6 @@ export const HangmanDrawing = ({ wrongCount }: HangmanDrawingProps) => {
         strokeLinecap="round"
       />
 
-      {/* Body parts (conditionally rendered) */}
       {HEAD && (
         <circle
           cx="140"
